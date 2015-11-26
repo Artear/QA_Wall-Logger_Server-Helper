@@ -6,16 +6,19 @@ class IpInfo implements \JsonSerializable
 {
     protected $publicIp;
     protected $localIp;
+    protected $timeSaved;
 
     /**
      * IpInfo constructor.
      * @param $publicIp
      * @param $localIp
+     * @param $timeSaved
      */
-    public function __construct($publicIp, $localIp)
+    public function __construct($publicIp, $localIp, $timeSaved)
     {
         $this->publicIp = $publicIp;
         $this->localIp = $localIp;
+        $this->timeSaved = $timeSaved;
     }
 
     /**
@@ -32,6 +35,14 @@ class IpInfo implements \JsonSerializable
     public function getLocalIp()
     {
         return $this->localIp;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeSaved()
+    {
+        return $this->timeSaved;
     }
 
     /**

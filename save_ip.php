@@ -3,7 +3,7 @@
 use model\IpInfo;
 
 
-const PARAM_LOCAL_IP = 'localIp';
+const PARAM_LOCAL_IP = "localIp";
 
 spl_autoload_register(function ($className) {
 
@@ -47,6 +47,7 @@ if ((!isset($_GET[PARAM_LOCAL_IP]) || trim($_GET[PARAM_LOCAL_IP]) === '')) {
 }
 
 
-$ipInfo = new IpInfo(get_client_ip(), $_GET[PARAM_LOCAL_IP]);
+$ipInfo = new IpInfo(get_client_ip(), $_GET[PARAM_LOCAL_IP], time());
 
-echo json_encode($ipInfo);
+
+file_put_contents(Config::DATA_FILE, json_encode($ipInfo));
