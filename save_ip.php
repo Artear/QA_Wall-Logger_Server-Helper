@@ -4,6 +4,7 @@ use model\IpInfo;
 
 
 const PARAM_LOCAL_IP = "localIp";
+const PARAM_PORT = "port";
 
 spl_autoload_register(function ($className) {
 
@@ -40,14 +41,16 @@ function get_client_ip()
     return $ipAddress;
 }
 
-if ((!isset($_GET[PARAM_LOCAL_IP]) || trim($_GET[PARAM_LOCAL_IP]) === '')) {
-    echo "Expecting GET param called " . PARAM_LOCAL_IP;
+if ((!isset($_GET[PARAM_LOCAL_IP]) || trim($_GET[PARAM_LOCAL_IP]) === '') ||
+    !isset($_GET[PARAM_PORT]) || trim($_GET[PARAM_PORT]) === ''
+) {
+    echo "Expecting GET params: '" . PARAM_LOCAL_IP . "' and '" . PARAM_PORT . "'";
     http_response_code(400);
     die();
 }
 
 
-$ipInfo = new IpInfo(get_client_ip(), $_GET[PARAM_LOCAL_IP], time());
+$ipInfo = new IpInfo(get_client_ip(), $_GET[PARAM_LOCAL_IP],  $_GET[PARAM_PORT], time());
 
 
 file_put_contents(Config::DATA_FILE, json_encode($ipInfo));
