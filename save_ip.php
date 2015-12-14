@@ -4,7 +4,8 @@ use model\IpInfo;
 
 
 const PARAM_LOCAL_IP = "localIp";
-const PARAM_PORT = "port";
+const PARAM_SOCKET_PORT = "socket_port";
+const PARAM_MESSAGE_PORT = "message_port";
 
 spl_autoload_register(function ($className) {
 
@@ -42,15 +43,16 @@ function get_client_ip()
 }
 
 if ((!isset($_GET[PARAM_LOCAL_IP]) || trim($_GET[PARAM_LOCAL_IP]) === '') ||
-    !isset($_GET[PARAM_PORT]) || trim($_GET[PARAM_PORT]) === ''
+    !isset($_GET[PARAM_SOCKET_PORT]) || trim($_GET[PARAM_SOCKET_PORT]) === '' ||
+    !isset($_GET[PARAM_MESSAGE_PORT]) || trim($_GET[PARAM_MESSAGE_PORT]) === ''
 ) {
-    echo "Expecting GET params: '" . PARAM_LOCAL_IP . "' and '" . PARAM_PORT . "'";
+    echo "Expecting GET params: '" . PARAM_LOCAL_IP . "' and '" . PARAM_SOCKET_PORT . "'" . "' and '" . PARAM_MESSAGE_PORT . "'";
     http_response_code(400);
     die();
 }
 
 
-$ipInfo = new IpInfo(get_client_ip(), $_GET[PARAM_LOCAL_IP],  $_GET[PARAM_PORT], time());
+$ipInfo = new IpInfo(get_client_ip(), $_GET[PARAM_LOCAL_IP],  $_GET[PARAM_SOCKET_PORT], $_GET[PARAM_MESSAGE_PORT], time());
 
 
 file_put_contents(Config::DATA_FILE, json_encode($ipInfo));
